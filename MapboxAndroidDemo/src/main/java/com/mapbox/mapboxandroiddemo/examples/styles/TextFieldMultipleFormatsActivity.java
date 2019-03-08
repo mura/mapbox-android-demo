@@ -13,6 +13,11 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.style.expressions.Expression;
 import com.mapbox.mapboxsdk.style.layers.Layer;
 
+import static com.mapbox.mapboxsdk.style.expressions.Expression.FormatOption.formatFontScale;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.FormatOption.formatTextFont;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.format;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.formatEntry;
+import static com.mapbox.mapboxsdk.style.expressions.Expression.get;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textField;
 
 public class TextFieldMultipleFormatsActivity extends AppCompatActivity {
@@ -40,23 +45,23 @@ public class TextFieldMultipleFormatsActivity extends AppCompatActivity {
           public void onStyleLoaded(@NonNull final Style style) {
 
             // Set up label formatting expression
-            Expression.FormatEntry bigLabel = Expression.formatEntry(
-              Expression.get("name_en"),
-              Expression.FormatOption.formatFontScale(1.5),
-              Expression.FormatOption.formatTextFont(new String[] {"Ubuntu Medium", "Arial Unicode MS Regular"})
+            Expression.FormatEntry bigLabel = formatEntry(
+              get("name_en"),
+              formatFontScale(1.5),
+              formatTextFont(new String[] {"Ubuntu Medium", "Arial Unicode MS Regular"})
             );
 
-            Expression.FormatEntry newLine = Expression.formatEntry(
+            Expression.FormatEntry newLine = formatEntry(
               "\n",
-              Expression.FormatOption.formatFontScale(0.5)
+              formatFontScale(0.5)
             );
 
-            Expression.FormatEntry smallLabel = Expression.formatEntry(
-              Expression.get("name"),
-              Expression.FormatOption.formatTextFont(new String[] {"Caveat Regular", "Arial Unicode MS Regular"})
+            Expression.FormatEntry smallLabel = formatEntry(
+              get("name"),
+              formatTextFont(new String[] {"Caveat Regular", "Arial Unicode MS Regular"})
             );
 
-            Expression format = Expression.format(bigLabel, newLine, smallLabel);
+            Expression format = format(bigLabel, newLine, smallLabel);
 
             // Retrieve the country label layers from the style and update them with the formatting expression
             for (Layer mapLabelLayer : style.getLayers()) {
